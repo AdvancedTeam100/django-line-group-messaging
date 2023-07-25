@@ -1,0 +1,20 @@
+{% include 'header.html' %}
+<div class="container">
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        <br><br>
+        <div class="alert alert-danger" role="alert">
+            本当に削除しますか？
+        </div>
+
+        <p>
+            <input class="btn btn-danger" type="submit" value="確認">
+            <a class="btn btn-info" href="{% url 'retrieve-member' %}">戻る</a>
+        </p>
+    </form>
+</div>
+
+</body>
+
+</html>
