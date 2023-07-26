@@ -79,12 +79,13 @@ WSGI_APPLICATION = 'lineGroupMessaging.wsgi.application'
 
 DATABASES = {
     'default': {  
-        'ENGINE': 'django.db.backends.mysql',  
-        'NAME': 'Manager',  
-        'USER':'root',  
-        'PASSWORD':'',  
-        'HOST':'localhost',  
-        'PORT':'3306'  
+        'ENGINE': 'django.db.backends.postgresql',  
+        'URL': 'postgresql://postgres:3kI28UImISHurB1XWNbL@containers-us-west-92.railway.app:7950/railway',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': '3kI28UImISHurB1XWNbL',
+        'HOST': 'containers-us-west-92.railway.app',
+        'PORT': '7950', 
     }  
 }
 

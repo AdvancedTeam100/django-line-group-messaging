@@ -1,0 +1,14 @@
+{
+    "builds": [
+      {
+        "src": "lineGroupMessaging/wsgi.py",
+        "use": "@vercel/python"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "lineGroupMessaging/wsgi.py"
+      }
+    ]
+}
