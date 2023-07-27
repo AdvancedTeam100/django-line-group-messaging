@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-tqj^1cb(uz^7ecxn!c#yzmyi6)6c3@e_*4p_3&5g0yi47d430)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['django-line-group-messaging.vercel.app']
+ALLOWED_HOSTS = ['.vercel.app']
 
 
 # Application definition
