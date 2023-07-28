@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import ManagerForm
 from .models import Manager
+from .models import Message
 from django.http import HttpResponseBadRequest, HttpResponse
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
@@ -64,6 +65,7 @@ def handle_text_message(event):
     message_text = event.message.text
 
     print(f"Received message from user {user_id}: {message_text}")
+    handle_message(message_text, user_id)
 
 def view_message(request):
     if 'x-line-signature' in request.headers:
@@ -77,3 +79,13 @@ def view_message(request):
     else:
         return HttpResponseBadRequest('Missing Line signature')
 
+
+def handle_message(message, sender_id):
+
+    # Create a new instance of the Message model to store the message
+    new_message = Message(
+        sender_id=str(sender_id),
+        receiver_id='RECEIVER_ID',  # Replace with actual receiver ID
+        content=message
+    )
+    new_message.save()

@@ -11,3 +11,13 @@ class Manager(models.Model):
 
     class Meta:
         db_table = 'Line_Memebers'
+
+# Create your models here.
+class Message(models.Model):
+    sender_id = models.CharField(max_length=30)
+    receiver_id = models.CharField(max_length=30)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'Line_Messages'
