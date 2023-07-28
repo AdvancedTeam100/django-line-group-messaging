@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, redirect
 from .forms import ManagerForm
 from .models import Manager
@@ -85,10 +86,12 @@ def callback(request):
         try:
             line_handler.handle(body, signature)
 
-            print(body)
-            if body['events']:
-                message_text = body['events'][0]['message']['text']
-                sender_id = body['events'][0]['source']['userId']
+            body1 = json.loads(request.body.decode('utf-8'))
+
+            print(body1)
+            if 'events' in body1 and body1['events']:
+                message_text = body1['events'][0]['message']['text']
+                sender_id = body1['events'][0]['source']['userId']
                 handle_message(message_text, sender_id)    
             
         except InvalidSignatureError:
