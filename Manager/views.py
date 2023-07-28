@@ -10,7 +10,6 @@ line_bot_api = LineBotApi("/ZFZoI1+zmOo0g9TZy4FpyGxhoVVec7tbYXve3QQzV70p276Qo5/M
 line_handler = WebhookHandler("c14a13ebf36bfac9da8446f256e246b9")
 
 # Add Blog
-
 def create_member(request):
     if request.method == "POST":
         form = ManagerForm(request.POST)
@@ -24,41 +23,38 @@ def create_member(request):
         form = ManagerForm()
     return render(request, 'create.html', {'form':form})
 
-# retrieve blog
-
+# Retrieve Blog
 def retrieve_member(request):
     members = Manager.objects.all()
     return render(request,'search.html',{'members':members} )
 
 # Update Blog
-
-def update_member(request,pk):
-    members = Manager.objects.get(id=pk)
-    form = ManagerForm(instance=members)
+def update_member(request, pk):
+    member = Manager.objects.get(id=pk)
+    form = ManagerForm(instance=member)
 
     if request.method == 'POST':
-        form = ManagerForm(request.POST, instance=members)
+        form = ManagerForm(request.POST, instance=member)
         if form.is_valid():
             form.save()
             return redirect('/search')
 
     context = {
-        'blogs': members,
+        'member': member,
         'form': form,
     }
     return render(request,'update.html',context)
 
 # Delete Blog
-
 def delete_member(request, pk):
-    blogs = Manager.objects.get(id=pk)
+    member = Manager.objects.get(id=pk)
 
     if request.method == 'POST':
-        blogs.delete()
+        member.delete()
         return redirect('/search')
 
     context = {
-        'blogs': blogs,
+        'member': member,
     }
     return render(request, 'remove.html', context)
 
@@ -70,10 +66,14 @@ def handle_text_message(event):
     print(f"Received message from user {user_id}: {message_text}")
 
 def view_message(request):
-    line_signature = request.headers['X-Line-Signature']
-    try:
-        line_handler.handle(request.body.decode('utf-8'), line_signature)
-    except InvalidSignatureError:
-        return HttpResponseBadRequest()
-    
-    return render(HttpResponse(),'messages.html')
+    if 'x-line-signature' in request.headers:
+        line_signature = request.headers['x-line-signature']
+        try:
+            line_handler.handle(request.body.decode('utf-8'), line_signature)
+        except InvalidSignatureError:
+            return HttpResponseBadRequest()
+        
+        return render(request, 'messages.html')
+    else:
+        return HttpResponseBadRequest('Missing Line signature')
+
