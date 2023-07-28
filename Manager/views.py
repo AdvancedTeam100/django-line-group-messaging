@@ -75,7 +75,7 @@ def view_message(request):
         except InvalidSignatureError:
             return HttpResponseBadRequest()
         
-        return render(request, 'messages.html')
+        return HttpResponse(status=200)
     else:
         return HttpResponseBadRequest('Missing Line signature')
 
