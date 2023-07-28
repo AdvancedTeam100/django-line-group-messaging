@@ -6,6 +6,8 @@ from django.http import HttpResponseBadRequest, HttpResponse
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage
+from django.views.decorators.csrf import csrf_exempt
+
 
 line_bot_api = LineBotApi("/ZFZoI1+zmOo0g9TZy4FpyGxhoVVec7tbYXve3QQzV70p276Qo5/MFq5d+sciP2xbEmBV2NVPEx6lbEDld2gkBikVxQahOLYDrr1z/I0t06X685Bqbvat​​XoiIxfnRip5W2vwOtXoJqKYty iS4HiyRwdB04t89/1O/w1cDnyilFU=")
 line_handler = WebhookHandler("c14a13ebf36bfac9da8446f256e246b9")
@@ -68,8 +70,25 @@ def handle_text_message(event):
     handle_message(message_text, user_id)
     return HttpResponse("test!!")
 
-def view_message(request):
-    return HttpResponse("test!!")
+
+@csrf_exempt # this is used for avoid csrf request from line server
+def callback(request):
+    if request.method == "POST":
+        # get X-Line-Signature header value
+        signature = request.META['HTTP_X_LINE_SIGNATURE']
+        global domain
+        domain = request.META['HTTP_HOST']
+        
+        # get request body as text
+        body = request.body.decode('utf-8')
+        # handle webhook body
+        try:
+            line_handler.handle(body, signature)
+        except InvalidSignatureError:
+            return HttpResponseBadRequest()
+        return HttpResponse()
+    else:
+        return HttpResponseBadRequest()
 
 def handle_message(message, sender_id):
 
