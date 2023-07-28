@@ -84,10 +84,11 @@ def callback(request):
         # handle webhook body
         try:
             line_handler.handle(body, signature)
-            
-            message_text = body['events'][0]['message']['text']
-            sender_id = body['events'][0]['source']['userId']
-            handle_message(message_text, sender_id)
+
+            print(body)
+            # message_text = body['events'][0]['message']['text']
+            # sender_id = body['events'][0]['source']['userId']
+            # handle_message(message_text, sender_id)
         except InvalidSignatureError:
             return HttpResponseBadRequest()
         return HttpResponse()
