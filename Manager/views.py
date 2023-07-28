@@ -66,6 +66,7 @@ def handle_text_message(event):
 
     print(f"Received message from user {user_id}: {message_text}")
     handle_message(message_text, user_id)
+    return HttpResponse("test!!")
 
 def view_message(request):
     return HttpResponse("test!!")
