@@ -68,17 +68,7 @@ def handle_text_message(event):
     handle_message(message_text, user_id)
 
 def view_message(request):
-    if 'x-line-signature' in request.headers:
-        line_signature = request.headers['x-line-signature']
-        try:
-            line_handler.handle(request.body.decode('utf-8'), line_signature)
-        except InvalidSignatureError:
-            return HttpResponseBadRequest()
-        
-        return HttpResponse(status=200)
-    else:
-        return HttpResponseBadRequest('Missing Line signature')
-
+    return HttpResponse("test!!")
 
 def handle_message(message, sender_id):
 
