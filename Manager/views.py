@@ -90,6 +90,7 @@ def callback(request):
 
             print(body1)
             if 'events' in body1 and body1['events']:
+                print(body1['events'])
                 message_text = body1['events'][0]['message']['text']
                 sender_id = body1['events'][0]['source']['userId']
                 handle_message(message_text, sender_id)    
