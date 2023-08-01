@@ -97,7 +97,7 @@ def callback(request):
             
         except InvalidSignatureError:
             return HttpResponseBadRequest()
-        return HttpResponse()
+        return render(request, 'messages.html')
     else:
         return HttpResponseBadRequest()
 
