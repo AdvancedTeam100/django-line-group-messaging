@@ -82,22 +82,23 @@ def callback(request):
         
         # get request body as text
         body = request.body.decode('utf-8')
+        print(body)
         # handle webhook body
-        try:
-            line_handler.handle(body, signature)
+        # try:
+        #     line_handler.handle(body, signature)
 
-            body1 = json.loads(request.body.decode('utf-8'))
+        #     body1 = json.loads(request.body.decode('utf-8'))
 
-            print(body1)
-            if 'events' in body1 and body1['events']:
-                print(body1['events'])
-                message_text = body1['events'][0]['message']['text']
-                sender_id = body1['events'][0]['source']['userId']
-                handle_message(message_text, sender_id)    
+        #     print(body1)
+        #     if 'events' in body1 and body1['events']:
+        #         print(body1['events'])
+        #         message_text = body1['events'][0]['message']['text']
+        #         sender_id = body1['events'][0]['source']['userId']
+        #         handle_message(message_text, sender_id)    
             
-        except InvalidSignatureError:
-            return HttpResponseBadRequest()
-        return render(request, 'messages.html')
+        # except InvalidSignatureError:
+        #     return HttpResponseBadRequest()
+        return render(body, 'messages.html')
     else:
         return HttpResponseBadRequest()
 
