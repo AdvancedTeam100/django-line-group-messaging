@@ -82,7 +82,7 @@ def callback(request):
         
         # get request body as text
         body = request.body.decode('utf-8')
-        print(body)
+        print(body.events)
         # handle webhook body
         # try:
         #     line_handler.handle(body, signature)
