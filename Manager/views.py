@@ -73,6 +73,8 @@ def handle_text_message(event):
 
 
 @csrf_exempt # this is used for avoid csrf request from line server
+
+
 def callback(request):
     if request.method == "POST":
         # get X-Line-Signature header value
@@ -82,33 +84,23 @@ def callback(request):
         
         # get request body as text
         body = request.body.decode('utf-8')
-        print(body.events)
-
-        if 'events' in body and body.events:
-                print(body.events)
-                message_text = body.events[0].message.text
-                sender_id = body.events[0].source.userId
-                handle_message(message_text, sender_id)  
+        body_json = None
+        try:
+            body_json = json.loads(body)
+        except json.JSONDecodeError:
+            return HttpResponseBadRequest()
+        
+        if 'events' in body_json and body_json['events']:
+            print(body_json['events'])
+            message_text = body_json['events'][0]['message']['text']
+            sender_id = body_json['events'][0]['source']['userId']
+            handle_message(message_text, sender_id)  
         else:   
             return HttpResponseBadRequest()
-        # handle webhook body
-        # try:
-        #     line_handler.handle(body, signature)
-
-        #     body1 = json.loads(request.body.decode('utf-8'))
-
-        #     print(body1)
-        #     if 'events' in body1 and body1['events']:
-        #         print(body1['events'])
-        #         message_text = body1['events'][0]['message']['text']
-        #         sender_id = body1['events'][0]['source']['userId']
-        #         handle_message(message_text, sender_id)    
-            
-        # except InvalidSignatureError:
-        #     return HttpResponseBadRequest()
-        return render(body, 'messages.html')
+        return render(request, 'messages.html')
     else:
         return HttpResponseBadRequest()
+
 
 def handle_message(message, sender_id):
 
