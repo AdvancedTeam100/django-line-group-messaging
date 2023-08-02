@@ -14,8 +14,8 @@ class Manager(models.Model):
 
 # Create your models here.
 class Message(models.Model):
-    sender_id = models.CharField(max_length=30)
-    receiver_id = models.CharField(max_length=30)
+    sender_id = models.CharField()
+    receiver_id = models.CharField()
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
