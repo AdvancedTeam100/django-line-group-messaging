@@ -83,6 +83,14 @@ def callback(request):
         # get request body as text
         body = request.body.decode('utf-8')
         print(body.events)
+
+        if 'events' in body and body.events:
+                print(body.events)
+                message_text = body.events[0].message.text
+                sender_id = body.events[0].source.userId
+                handle_message(message_text, sender_id)  
+        else:   
+            return HttpResponseBadRequest()
         # handle webhook body
         # try:
         #     line_handler.handle(body, signature)
